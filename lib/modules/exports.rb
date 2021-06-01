@@ -5,10 +5,11 @@ module Resource::Exports
   # Export the given scan. Once requested, the file can be downloaded using the Resource::Tokens.token_download method upon receiving a "ready" status from the Resource::Tokens#token_status method. You can also use the older Resource::Exports#export_status and Resource::Exports#export_download methods.
   # @param [String] scan_id The export uuid string.
   # @param [String] format The file format to use (Nessus, HTML, PDF, CSV, or DB).
+  # @param [String] chapters Expecting a semi-colon delimited string comprised of some combination of the following options: vuln_hosts_summary, vuln_by_host, compliance_exec, remediations, vuln_by_plugin, compliance.
   # @return [Hash]
-  def export_request(scan_id, format = 'nessus')
+  def export_request(scan_id, format = 'nessus', chapters = '')
     payload = { format: format }
-    request.post({ path: "/scans/#{scan_id}/export", payload: payload, headers: headers })
+    request.post({ path: "/scans/#{scan_id}/export", payload: payload, headers: headers, chapters: chapters })
   end
 
   # Check the file status of an exported scan. When an export has been requested, it is necessary to poll this resource until a "ready" status is returned, at which point the file is complete and can be downloaded using the export download resource.

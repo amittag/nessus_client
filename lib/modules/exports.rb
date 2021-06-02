@@ -8,8 +8,8 @@ module Resource::Exports
   # @param [String] chapters Expecting a semi-colon delimited string comprised of some combination of the following options: vuln_hosts_summary, vuln_by_host, compliance_exec, remediations, vuln_by_plugin, compliance.
   # @return [Hash]
   def export_request(scan_id, format = 'nessus', chapters = '')
-    payload = { format: format }
-    request.post({ path: "/scans/#{scan_id}/export", payload: payload, headers: headers, chapters: chapters })
+    payload = { format: format, chapters: chapters }
+    request.post({ path: "/scans/#{scan_id}/export", payload: payload, headers: headers})
   end
 
   # Check the file status of an exported scan. When an export has been requested, it is necessary to poll this resource until a "ready" status is returned, at which point the file is complete and can be downloaded using the export download resource.
